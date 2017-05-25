@@ -95,7 +95,7 @@ void normalize(char p[H][W])
 	
 	for(j=0;j<H;j++){
 		for(i=0;i<W;i++){
-		p2[H-1-j][i]=p[(int)((H-1-j)*(h/H)+y0+0.5)][(int)((i)*(w/W)+x0+0.5)];
+		p2[j][i]=p[(int)((j)*(h/H)+y0+0.5)][(int)((i)*(w/W)+x0+0.5)];
 		}
 	}
 	printf("\n");
