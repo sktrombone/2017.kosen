@@ -3,15 +3,15 @@
 
 #define N 10000000
 
-int binarysearch(int data[],int left,int right,int search)
+int binarySearch(int data[],int left,int right,int search)
 {
-	int m=(left+right)/2;
+	int mid=(left+right)/2;
 	
-	if(data[m]==search)return m;
-	if(left==right)return -1;
-	else if(data[m]<search)return binarysearch(data,m+1,right,search);
-	else if(data[m]>search)return binarysearch(data,left,m-1,search);
-	else return -1;
+	if(data[mid]==search)return mid;
+	if(left==right)return 0;
+	else if(data[mid]<search)return binarySearch(data,mid+1,right,search);
+	else if(data[mid]>search)return binarySearch(data,left,mid-1,search);
+	else return 0;
 }
 
 int main()
@@ -26,17 +26,15 @@ int main()
 		exit(1);
 	}
 	
-	for(i=0;i<N;i++){
-		fscanf(fp,"%d\n",&num[i]);
-	}
+	for(i=0;i<N;i++) fscanf(fp,"%d\n",&num[i]);
 	
-	printf("どのデータをお求めですか？");
+	printf("What kind of data are you looking for?==>");
 	scanf("%d",&data);
 	
-	re=binarysearch(num,0,N-1,data);
+	re=binarySearch(num,0,N-1,data);
 	
-	if(re==-1)printf("お探しのデータは存在しませんでした．");
-	else printf("お探しのデータは%d番目にありました．",re);
+	if(re==0)printf("The data you are looking for did not exist.");
+	else printf("The data you are looking for was at the %dth.",re);
 	
 	fclose(fp);
 	return 0;
