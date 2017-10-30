@@ -1,29 +1,29 @@
 /* mp3ex06.txt */
-/* s15097 3J24 �����i�� */
+/* s15097 3J24 清水景太 */
 
-1.�ۑ�
-�@�|�[�g1��bit0,bit1,bit2,bit3�ɕی��R�t����LED���ڑ�����Ă���Ƃ���B
-�@�@���̂悤�Ȑ݌v�d�l�̏ꍇ��LED�������֐�initLed_P1()�� turnOnLed_P1()�CturnOffLed_P1()�����Ȃ����B
-�@�@void initLed_P1(void)�@LED�������֐�
-�@�@void turnOnLed_P1(int number) LED��_��������֐��B
-�@�@  �������C������0,1,2,3�����CLED0,1,2,3�����ꂼ��ʂɓ_��������B
-�@�@void turnOffLed_P1(int number) LED������������֐��B
-�@�@  �������C������0,1,2,3�����CLED0,1,2,3�����ꂼ��ʂɏ���������B
-�@�@main�v���O�����ł͂����̊֐���p���āC�S��LED�ɂ���2�b���Ƃ�0,1,2,3��LED�����ɓ_������������
-�@�@�悤�Ƀv���O�����S�̂����Ȃ����BLED�̓_�ł͌����Ȃ�����ǁC�|�[�g1��bit0,bit1,bit2,bit3���ǂ��̃s��
-�@�@�Ɍ����邩���ׂāC�e�X�^�ɂă`�F�b�N���Ȃ����B
-�@�@�i�q���gP1-B0����P1-B3�����̃y�[�W���́u�Q�l�P H8�s���z�u�v�ŒT���j
-�@�@���s�̗l�q���ώ@���C���̗l�q�����s���ʂƂ��ĕ񍐂��Ȃ����B
+1.課題
+　ポート1のbit0,bit1,bit2,bit3に保護抵抗付きのLEDが接続されているとする。
+　　次のような設計仕様の場合のLED初期化関数initLed_P1()と turnOnLed_P1()，turnOffLed_P1()を作りなさい。
+　　void initLed_P1(void)　LED初期化関数
+　　void turnOnLed_P1(int number) LEDを点灯させる関数。
+　　  ただし，引数は0,1,2,3を取り，LED0,1,2,3をそれぞれ個別に点灯させる。
+　　void turnOffLed_P1(int number) LEDを消灯させる関数。
+　　  ただし，引数は0,1,2,3を取り，LED0,1,2,3をそれぞれ個別に消灯させる。
+　　mainプログラムではこれらの関数を用いて，４つのLEDについて2秒ごとに0,1,2,3番LEDが順に点灯し消灯する
+　　ようにプログラム全体を作りなさい。LEDの点滅は見えないけれど，ポート1のbit0,bit1,bit2,bit3がどこのピン
+　　に見えるか調べて，テスタにてチェックしなさい。
+　　（ヒントP1-B0からP1-B3をこのページ後ろの「参考１ H8ピン配置」で探す）
+　　実行の様子を観察し，その様子を実行結果として報告しなさい。
 
 
-2.�g�p�����v���O����
+2.使用したプログラム
 #include <3048fone.h>
 
 void waitmsec(int msec)
 {
 	int i,j;
 	for (i=0;i<msec;i++) {
-		for (j=0;j<4190;j++);    /*4190�͎����ɂ���ċ��߂��l 25MHz�쓮*/
+		for (j=0;j<4190;j++);    /*4190は実測によって求めた値 25MHz駆動*/
 	}
 }
 
@@ -63,14 +63,14 @@ main()
 	}
 }
 
-3.�l�@
-�@3-1.���s����
-�@�@LED2���_�����Ă���Ɨ\���ł���Ƃ��ɁCCN3��33�Ԃɖ�5V�̓d�������ꂽ�D
-�@�@LED3���_�����Ă���Ɨ\���ł���Ƃ��ɁCCN3��34�Ԃɂ���5V�̓d�������ꂽ�D
-�@�@
-�@3-2.�l�@
-�@�@���ۂ�LED�����݂��Ȃ��|�[�g�ł��CLED�_�ł̃v���O�������g���č��܂Ŏg�p���Ă����|�[�g�Ƃ͈Ⴄ�|�[�g�ł����l�̓�������邱�Ƃ��ł���D
-�@
-4.�܂Ƃ�
-�@���ۂ�LED�����݂��Ȃ��|�[�g�ł��CLED�_�ł̃v���O�������g���č��܂Ŏg�p���Ă����|�[�g�Ƃ͈Ⴄ�|�[�g�ł����l�̓�������邱�Ƃ��ł��邱�Ƃ����������D
-�@�܂��CCN3��33�Ԃ�34�Ԃ͂��ꂼ��ˋ��LED2��LED3�ɑΉ����Ă��邱�Ƃ����������D
+3.考察
+　3-1.実行結果
+　　LED2が点灯していると予測できるときに，CN3の33番に約5Vの電圧がかかった．
+　　LED3が点灯していると予測できるときに，CN3の34番にも約5Vの電圧がかかった．
+　　
+　3-2.考察
+　　実際にLEDが存在しないポートでも，LED点滅のプログラムを使って今まで使用していたポートとは違うポートでも同様の動作をすることができる．
+　
+4.まとめ
+　実際にLEDが存在しないポートでも，LED点滅のプログラムを使って今まで使用していたポートとは違うポートでも同様の動作をすることができることが分かった．
+　また，CN3の33番と34番はそれぞれ架空のLED2とLED3に対応していることが分かった．
