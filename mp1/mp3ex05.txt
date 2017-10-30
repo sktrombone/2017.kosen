@@ -1,0 +1,78 @@
+/* mp3ex05.txt */
+/* s15097 3J24 清水景太 */
+
+
+
+1.課題
+　「led2nd.c」で「#include "h8_3048fone.h"」を消去し，h8_3048fone.h中にある関数initLed()，turnOnLed()，
+　　turnOffLed()を自分のプログラム中にコピー＆ペーストし，必要ならば記述を追加して動作を確認し，
+　　提出しなさい。
+　　#include "ファイル名"とは，#includeが記述された位置に，そのファイルの内容が書かれていると解釈して
+　　コンパイルしなさいという意味である。
+　　考察に次のことを記述しなさい。
+　　「３． マイクロコンピュータのプログラムと，デジタルの0V，5Vの世界をつなぐ」を読み直して
+　　h8_3048fone.h中にある関数 initLed()，turnOnLed()，turnOffLed()について説明しなさい。
+　　なおH8/3048foneハードウェアマニュアルの関連する説明を抜き出しなさい。（９．６ ポート5，モード７参照）
+　　http://tnct20.tokyo-ct.ac.jp/~kosaka/for_students/H8/j602093_h83048.pdf
+
+2.使用したプログラム
+#include <3048fone.h>
+
+void initLed()
+{
+	P5.DDR = 0xf;
+}
+
+void turnOnLed(short int number)
+{ 
+	static const unsigned char mask[]={1,2,4,8};
+	P5.DR.BYTE |= mask[number];
+}
+
+void turnOffLed(short int number)
+{
+	static const unsigned char mask[]={0xfe,0xfd,0xfb,0xf7};
+	P5.DR.BYTE &= mask[number];
+}
+
+void waitmsec(int msec)
+{
+	int i,j;
+	for(i=0;i<msec;i++){
+		for(j=0;j<4190;j++);
+	}
+}
+
+main()
+{
+	initLed();
+	while(1) {
+		turnOnLed(0);
+		turnOffLed(1);
+		waitmsec(1000);
+		turnOffLed(0);
+		turnOnLed(1); 
+		waitmsec(1000);
+	}
+}
+
+3.考察
+　3-1.実行結果
+　　2秒周期で交互に点滅した．
+　　
+  3-2.考察
+　　initLed()
+　　ポート５の全ビットを出力モードにする。
+
+　　turnOnLed()
+　　受け取ったnumber番目のLEDをonにする。
+
+　　turnOffLed()
+　　受け取ったnumber番目のLEDをoffにする。
+
+　　モード7（シングルチップモード）
+　　ポート5は、入出力ポートとして機能します。P5DDRに1をセットすると対応する端子は出力ポートになり、0にクリアすると入力ポートになります。
+
+4.まとめ
+各関数はそれぞれヘッダファイルで定義されている．
+ビットを操作することによって入出力をコントロールしている．
