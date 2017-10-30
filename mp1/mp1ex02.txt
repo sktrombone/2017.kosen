@@ -1,0 +1,61 @@
+/* mp1ex02.txt */
+/* s15097 3J24 清水景太 */
+
+1.課題
+　　short int 型の変数を２進法表現で見たとき，1の個数を数える関数int countOnes(short int value)
+　を作りなさい。
+　例えばこの関数に10進法表現の10を与えると，2進法表現では1010なので，2を返す。
+　例えばこの関数に10進法表現の13を与えると，2進法表現では1101なので，3を返す。
+　テストするmainもつくり，十分にテストしてから提出しなさい。どのように考えて十分なテストだと
+　考えたのか，考察に書きなさい。また実行結果を貼り付けなさい。
+
+2.使用したプログラム
+
+　#include <3048fone.h>
+　#include "h8_3048fone.h"
+
+　int countOnes(short int value)
+　{
+　	int count=0;
+　	while (value!=0) {
+　		count+=(value&1);
+　		value=((unsigned short int)value)>>1;
+		
+	}
+	return count;
+　}
+
+　main()
+　{
+　	short int x,y;
+	initSCI1();
+	SCI1_printf("Hello. How are you?\n");
+	SCI1_printf("Let's count ones\n");
+	while (1) {
+		x=SCI1_getInt("the number = ");
+		y=countOnes(x);
+		SCI1_printf("x=%b y=%d\n",x,y);
+　	}
+　}
+
+3.考察
+　3-1.実行結果
+
+　　Hello. How are you?
+　　Let's count ones
+　　the number = 100
+　　x=1100100 y=3
+　　the number = 1000
+　　x=1111101000 y=6
+　　the number = 10000
+　　x=10011100010000 y=5
+　　the number = -10000
+　　x=1101100011110000 y=8
+　　the number = -12000
+　　x=1101000100100000 y=5
+　　
+　3-2.考察
+　　short int型は2byte(16bit)であり，今回のテストでは扱える最高桁数まで試したため十分なテストだと考えた．
+
+4.まとめ
+　今回ビット演算子を用いたプログラムにより，０や１がいくつ存在するかを確認することができた。
