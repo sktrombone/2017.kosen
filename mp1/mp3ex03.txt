@@ -1,0 +1,87 @@
+/* mp3ex03.txt */
+/* s15097 3J24 清水景太 */
+
+
+
+1.課題
+　0.5秒ごとに点灯状態が変化し，次の点滅パターンを繰り返すプログラム
+　　左側2回点滅→右側2回点滅→左側1回点滅→右側1回点滅
+　　実行の様子を観察し，その様子を実行結果として報告しなさい。
+
+2.使用したプログラム
+#include <3048fone.h>
+#include "h8_3048fone.h"
+
+void waitmsec(int msec)
+{
+	int i,j;
+	for (i=0;i<msec;i++) {
+		for (j=0;j<4190;j++);    /*4190は実測によって求めた値 25MHz駆動*/
+	}
+}
+
+main()
+{
+	initLed();
+	while(1) {
+	
+		turnOffLed(0);
+		turnOnLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOnLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOnLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOnLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOnLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOnLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+		turnOffLed(0);
+		turnOffLed(1);
+		waitmsec(500);
+		
+	}
+}
+
+3.考察
+ 3-1.実行結果
+　　0.5秒ごとに、左2回点滅→右2回点滅→左1回点滅→右1回点滅、というように点灯状態が変化していた．
+
+ 3-2.考察
+　　1周期終わるのに0.5*12=6秒かかる。点灯している時間が0.5*6=3で3秒、消灯してる時間が0.5*6=3で3秒なのでデューティー比は50%である。
+
+4.まとめ
+　周期は6秒、デューティー比が50%であることが分かった。
