@@ -1,0 +1,76 @@
+/* mp3ex06.txt */
+/* s15097 3J24 清水景太 */
+
+1.課題
+　ポート1のbit0,bit1,bit2,bit3に保護抵抗付きのLEDが接続されているとする。
+　　次のような設計仕様の場合のLED初期化関数initLed_P1()と turnOnLed_P1()，turnOffLed_P1()を作りなさい。
+　　void initLed_P1(void)　LED初期化関数
+　　void turnOnLed_P1(int number) LEDを点灯させる関数。
+　　  ただし，引数は0,1,2,3を取り，LED0,1,2,3をそれぞれ個別に点灯させる。
+　　void turnOffLed_P1(int number) LEDを消灯させる関数。
+　　  ただし，引数は0,1,2,3を取り，LED0,1,2,3をそれぞれ個別に消灯させる。
+　　mainプログラムではこれらの関数を用いて，４つのLEDについて2秒ごとに0,1,2,3番LEDが順に点灯し消灯する
+　　ようにプログラム全体を作りなさい。LEDの点滅は見えないけれど，ポート1のbit0,bit1,bit2,bit3がどこのピン
+　　に見えるか調べて，テスタにてチェックしなさい。
+　　（ヒントP1-B0からP1-B3をこのページ後ろの「参考１ H8ピン配置」で探す）
+　　実行の様子を観察し，その様子を実行結果として報告しなさい。
+
+
+2.使用したプログラム
+#include <3048fone.h>
+
+void waitmsec(int msec)
+{
+	int i,j;
+	for (i=0;i<msec;i++) {
+		for (j=0;j<4190;j++);    /*4190は実測によって求めた値 25MHz駆動*/
+	}
+}
+
+void initLed_P1()
+{
+	P5.DDR = 0xf;
+}
+
+void turnOnLed_P1(int number)
+{ 
+	static const unsigned char mask[]={1,2,4,8};
+	P5.DR.BYTE |= mask[number];
+}
+
+void turnOffLed_P1(int number)
+{
+	static const unsigned char mask[]={0xfe,0xfd,0xfb,0xf7};
+	P5.DR.BYTE &= mask[number];
+}
+
+main()
+{
+	initLed_P1();
+	while(1) {
+		turnOnLed_P1(0);
+		turnOffLed_P1(3);
+		waitmsec(2000);
+		turnOffLed_P1(0);
+		turnOnLed_P1(1);
+		waitmsec(2000);
+		turnOffLed_P1(1);
+		turnOnLed_P1(2);
+		waitmsec(2000);
+		turnOffLed_P1(2);
+		turnOnLed_P1(3);
+		waitmsec(2000);
+	}
+}
+
+3.考察
+　3-1.実行結果
+　　LED2が点灯していると予測できるときに，CN3の33番に約5Vの電圧が流れた．
+　　LED3が点灯していると予測できるときに，CN3の34番にも約5Vの電圧が流れた．
+　　
+　3-2.考察
+　　実際にLEDが存在しないポートでも，LED点滅のプログラムを使って今まで使用していたポートとは違うポートでも同様の動作をすることができる．
+　
+4.まとめ
+　実際にLEDが存在しないポートでも，LED点滅のプログラムを使って今まで使用していたポートとは違うポートでも同様の動作をすることができることが分かった．
+　また，CN3の33番と34番はそれぞれ架空のLED2とLED3に対応していることが分かった．
