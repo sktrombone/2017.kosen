@@ -1,0 +1,102 @@
+/* mp1ex01.txt */
+/* s15097 3J24 清水景太 */
+
+1.課題
+　「bitoperation.c」で演算結果は２進法表現だけであるが，同じ変数について2進法表現と10進法表現が
+　　同時に見えるように改造しなさい。
+　　負の整数を右シフトした時（例えばxの値を-1024などにしてz=x>>3;），どうなるか試して考察しなさい。
+　　また，unsigned short int u;を導入するように改造し，uに無理やり-1024などを代入してz=u>>3にした時，
+　　どうなるか試して考察しなさい。
+　　実行結果を貼り付け，その説明をもとに考察しなさい。
+
+
+2.使用したプログラム
+
+#include <3048fone.h>
+#include "h8_3048fone.h"
+
+main()
+{
+	short int x,y,z;
+	unsigned short int u;
+	
+	initSCI1(); /*シリアル通信ユニット　SCI-ch1の初期化*/
+	SCI1_printf("Hello. How are you?\n"); /*printfと同様*/
+	SCI1_printf("Let's make an bit operation\n");
+	SCI1_printf("\n");
+	
+	while (1) {
+		x=SCI1_getInt("the first  number = ");
+		y=SCI1_getInt("the second number = ");
+		
+		u=x;
+		
+		SCI1_printf("\n");
+		
+		z=x&y;
+		SCI1_printf("x=%b y=%b z=x&y=%b\n",x,y,z);
+		SCI1_printf("x=%d y=%d z=x&y=%d\n\n",x,y,z);
+		
+		z=x|y;
+		SCI1_printf("x=%b y=%b z=x|y=%b\n",x,y,z);
+		SCI1_printf("x=%d y=%d z=x|y=%d\n\n",x,y,z);
+		
+		z=x^y;
+		SCI1_printf("x=%b y=%b z=x^y=%b\n",x,y,z);
+		SCI1_printf("x=%d y=%d z=x^y=%d\n\n",x,y,z);
+		
+		z=u>>3;
+		SCI1_printf("u=%b z=u>>3=%b\n",u,z);
+		SCI1_printf("u=%d z=u>>3=%d\n\n",u,z);
+		
+		z=y<<3;
+		SCI1_printf("y=%b z=y<<3=%b\n",y,z);
+		SCI1_printf("y=%d z=y<<3=%d\n\n",y,z);
+	}
+}
+
+
+3.考察
+　3-1.実行結果
+　　Hello. How are you?
+　　Let's make an bit operation
+
+　　the first  number = -1024
+　　the second number = 512
+
+　　x=1111110000000000 y=1000000000 z=x&y=0
+　　x=-1024 y=512 z=x&y=0
+
+　　x=1111110000000000 y=1000000000 z=x|y=1111111000000000
+　　x=-1024 y=512 z=x|y=-512
+
+　　x=1111110000000000 y=1000000000 z=x^y=1111111000000000
+　　x=-1024 y=512 z=x^y=-512
+
+　　u=1111110000000000 z=u>>3=1111110000000
+　　u=-1024 z=u>>3=8064
+
+　　y=1000000000 z=y<<3=1000000000000
+　　y=512 z=y<<3=4096
+　　
+　3-2.考察
+　　検証
+　　 1111110000000000
+　　&      1000000000
+　　--------------------
+　　 0000000000000000
+　　
+　　 1111110000000000
+　　|      1000000000
+　　--------------------
+　　 1111111000000000
+
+　　     1111110000000000
+　　>>3     1　1111　1000　0000
+　　
+　　        1000000000
+　　<<3  1000000000000
+　　
+　　
+4.まとめ
+　ビット演算について理解できた．
