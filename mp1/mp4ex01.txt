@@ -1,0 +1,51 @@
+/* mp4ex01.txt */
+/* s15097 3J24 清水景太 */
+
+1.課題
+　8bitSWの1がOFFの時，0.5秒周期で２つのLEDを同時点滅，
+　8bitSWの1がONの時，1秒周期で２つのLEDを同時点滅
+　実行の様子を観察し，その様子を実行結果として報告しなさい。
+
+
+2.使用したプログラム
+#include <3048fone.h>
+#include "h8_3048fone.h"
+
+void waitmsec(int msec)
+{
+	int i,j;
+	for (i=0;i<msec;i++) {
+		for (j=0;j<4190;j++);    /*4190は実測によって求めた値 25MHz駆動*/
+	}
+}
+
+
+main()
+{
+	initLed();
+	init8BitSW();/*8bitSWの初期化*/
+	while(1){
+		if(check8BitSW(1)){
+			turnOnLed(0);
+			turnOnLed(1);
+			waitmsec(500);
+			turnOffLed(0);
+			turnOffLed(1);
+			waitmsec(500);
+		}else{
+			turnOnLed(0);
+			turnOnLed(1);
+			waitmsec(250);
+			turnOffLed(0);
+			turnOffLed(1);
+			waitmsec(250);
+		}
+	}
+}
+　
+3.考察
+　3-1.実行結果
+　8bitスイッチの1がonのとき1秒周期で点滅し，offのとき0.5秒周期で点滅した．
+
+4.まとめ
+　スイッチを使用して点滅の周期を変えることができる．
