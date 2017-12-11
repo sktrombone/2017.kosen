@@ -1,0 +1,3 @@
+void OnHosStart(VP_INT exinf);
+void taskA(VP_INT exinf);
+void taskB(VP_INT exinf);
